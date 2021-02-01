@@ -1,0 +1,32 @@
+---
+title: "Ploynomial Regression"
+author: "Author : Rose Ellison"
+output:
+  html_document:
+    highlight: tango
+    number_sections: no
+    number_subsections: no
+    smooth_scroll: yes
+    theme: paper
+  word_document: default
+  pdf_document:
+    highlight: tango
+    number_sections: no
+    number_subsections: no
+    smooth_scroll: yes
+    theme: paper
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\[Polynomial Linear Regression Formula : \]
+
+\[y = b_0 + b_1  x_1 +  b_2  x_1^2 + ... + b_n  x_1^n\]
+
+## Preparing the data
+```{r}
+
+```
+

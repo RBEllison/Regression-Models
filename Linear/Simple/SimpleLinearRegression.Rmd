@@ -34,7 +34,7 @@ We want to determine if there are any correlations between profit and experience
 set.seed(1)
 
 # Importing salary data
-salary <- read.csv('../data/Salary_Data.csv')
+salary <- read.csv('../../data/Salary_Data.csv')
 
 # Splitting the dataset into the training set and test set
 split <- sample.split(salary$Salary, SplitRatio = 2/3)
@@ -50,7 +50,7 @@ y.pred <- predict(regressor, newdata = test.set)
 
 # Visualizing the training set results
 ggplot() + 
-  geom_point(aes(x = training.set$YearsExperience, y = training.set$Salary), col = 'lightblue', lw = 4) + 
+  geom_point(aes(x = training.set$YearsExperience, y = training.set$Salary), col = 'lightblue') + 
   geom_line(aes(x = training.set$YearsExperience, y = predict(regressor, newdata = training.set)), col = 'darkblue') + 
   theme_bw() + 
   ggtitle('Salary VS Experience (Training Set)') + 
@@ -65,7 +65,7 @@ ggplot() +
 ```{r}
 # Visualizing the test set results
 ggplot() + 
-  geom_point(aes(x = test.set$YearsExperience, y = test.set$Salary), col = 'lightblue', lw = 4) + 
+  geom_point(aes(x = test.set$YearsExperience, y = test.set$Salary), col = 'lightblue') + 
   geom_line(aes(x = training.set$YearsExperience, y = predict(regressor, newdata = training.set)), col = 'darkblue') + 
   theme_bw() + 
   ggtitle('Salary VS Experience (Test Set)') + 

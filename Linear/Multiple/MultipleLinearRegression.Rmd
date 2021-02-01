@@ -1,19 +1,20 @@
 ---
 title: "Multiple Linear Regression"
-author: "Author : Rose Ellison"
+author: 'Author : Rose Ellison'
 output:
   html_document:
     highlight: tango
     number_sections: no
     number_subsections: no
+    smooth_scroll: yes
     theme: paper
-    smooth_scroll: true
+  word_document: default
   pdf_document:
     highlight: tango
     number_sections: no
     number_subsections: no
+    smooth_scroll: yes
     theme: paper
-    smooth_scroll: true
 ---
 
 ```{r setup, include=FALSE}
@@ -35,7 +36,7 @@ We want to determine if there are any correlations between the profit and expend
 For this step, I need to read in the csv file, deal with categorical data, and then split the data into training and test sets. 
 ```{r}
 # Importing the dataset
-startups <- read.csv('../data/50_Startups.csv')
+startups <- read.csv('../../data/50_Startups.csv')
 
 
 # Dealing with categorical data - 'State'
@@ -83,7 +84,7 @@ y.pred <- predict(regressor, newdata = test.set)
 ```{r}
 # Visualizing the training set results
 ggplot() + 
-  geom_point(aes(x = training.set$R.D.Spend, y = training.set$Profit), col = 'lightblue', lw = 4) + 
+  geom_point(aes(x = training.set$R.D.Spend, y = training.set$Profit), col = 'lightblue') + 
   geom_line(aes(x = training.set$R.D.Spend, y = predict(regressor, newdata = training.set)), col = 'darkblue') + 
   theme_bw() + 
   ggtitle('Profit VS R.D.Spend (Training Set)') + 
@@ -94,7 +95,7 @@ ggplot() +
 ## Visualizing the test set results
 ```{r}
 ggplot() + 
-  geom_point(aes(x = test.set$R.D.Spend, y = test.set$Profit), col = 'lightblue', lw = 4) + 
+  geom_point(aes(x = test.set$R.D.Spend, y = test.set$Profit), col = 'lightblue') + 
   geom_line(aes(x = training.set$R.D.Spend, y = predict(regressor, newdata = training.set)), col = 'darkblue') + 
   theme_bw() + 
   ggtitle('Profit VS R.D.Spend (Test Set)') + 
