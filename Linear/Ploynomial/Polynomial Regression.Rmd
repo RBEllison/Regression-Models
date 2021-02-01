@@ -116,7 +116,6 @@ poly.y.pred <- predict(polynomial.regressor, data.frame(Level = 6.5,
                                                         Level3 = 6.5^3,
                                                         Level4 = 6.5^4))
 
-
 poly.y.pred
 ```
 
