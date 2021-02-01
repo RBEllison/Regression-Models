@@ -1,8 +1,19 @@
 ---
-title: "SimpleLinearRegression"
-author: "Rose Ellison"
-date: "1/31/2021"
-output: html_document
+title: "Simple Linear Regression"
+author: "Author : Rose Ellison"
+output:
+  html_document:
+    highlight: tango
+    number_sections: no
+    number_subsections: no
+    theme: paper
+    smooth_scroll: true
+  pdf_document:
+    highlight: tango
+    number_sections: no
+    number_subsections: no
+    theme: paper
+    smooth_scroll: true
 ---
 
 ```{r setup, include=FALSE}
@@ -11,15 +22,18 @@ library(caTools)
 library(ggplot2)
 ```
 
-# Simple Linear Regression
-- Is there a correlation between experience and salary?
-- Is there a linear dependency?
+I will be building a simple linear regression model based off the 'Salary_Data' data. 
+In this dataset there are two columns, $Salary$, and $YearsExperience$. The YearsExperience is our dependent variable while the Salary is our independent variable. 
+We want to determine if there are any correlations between profit and experience. Additionally, we want to determine if there is a linear dependency.
+
+\[Simple Linear Regression Formula : \]
+\[y = b_0 + b_1  x_1\]
 
 ```{r}
 # Set seed
 set.seed(1)
 
-# Importting salary data
+# Importing salary data
 salary <- read.csv('../data/Salary_Data.csv')
 
 # Splitting the dataset into the training set and test set
@@ -59,5 +73,7 @@ ggplot() +
   ylab('Salary')
 ```
 # Conclusion
-- 
+```{r}
+summary(regressor)
+```
 
