@@ -1,4 +1,4 @@
-# Regressions
+# Regression Models
 
 <p>
 Models of many different regressions including simple linear, multiple linear, polynomial, support vector, decision tree, and random forest.
