@@ -1,5 +1,5 @@
 ---
-title: "Ploynomial Regression"
+title: "Polynomial Regression"
 author: "Author : Rose Ellison"
 output:
   html_document:
@@ -19,14 +19,107 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(caTools)
+library(ggplot2)
+library(gridExtra)
 ```
 
-\[Polynomial Linear Regression Formula : \]
+\[Formula : \]
 
 \[y = b_0 + b_1  x_1 +  b_2  x_1^2 + ... + b_n  x_1^n\]
 
-## Preparing the data
-```{r}
 
+I will be building both a simple and polynomial regression model based off the 'Position_Salaries' data to determe which model fits the data better. 
+In this dataset there are three columns $Position$, $Level$, and $Salary$. Salary is our dependent variable while the other two are our independent variables. 
+We want to use regression to determine if a particuilar new hire's past salary was possibly $160,000 as a region manager. 
+
+```{r}
+# Set the seed
+set.seed(1)
+
+# Importing the data
+positions <- read.csv('../../data/Position_Salaries.csv')
+
+dim(positions)
+positions
 ```
+
+
+
+
+## Preparing the data
+From the table we can see there is some redundancy between the $Position$ and $Level$ column. Therefor it would make sense to drop the $Position$ column and just use the numeric $Level$ and $Salary$ columns. Since we only have 10 observations, it would not be useful to split the data into a training and test set.
+```{r}
+# Saving the dataset with only the two necessary columns
+positions <- positions[, 2:3]
+```
+
+
+## Fitting Regressions to the Dataset
+From the data it is not clear if we need to use simple linear or polynomial linear regression to best fit the data. Therefore, we will use both and then determine which one fits best.
+
+#### Simple Regression
+```{r}
+simple.regressor <- lm(formula = Salary ~ Level, 
+                       data = positions)
+summary(simple.regressor)
+```
+It appears that the simple linear regression is actually not at all a bad model and we can see there is a close correlation between the variables and a p-value of 0.003833.
+
+#### Polynomial
+```{r}
+# Create a new column which contains the squares of the levels
+positions$Level2 <- positions$Level ^ 2
+positions$Level3 <- positions$Level ^ 3
+positions$Level4 <- positions$Level ^ 4
+
+# Polynomial Regressor
+polynomial.regressor <- lm(formula = Salary ~ ., 
+                           data = positions)
+
+summary(polynomial.regressor)
+```
+The polynomial linear regression is also a good model for the data. We can see there is a close correlation between the independent and dependent variables. The polynomial seems better than the simple because it has a lower p-value of .00001441.
+
+
+### Visualizing the Regressions
+```{r}
+par(mfrow = c(2,1))
+
+# Visualizing the Simple Linear Regression
+simple.plot <- ggplot() + 
+  geom_point(data = positions, aes(x = Level, y = Salary), col = 'lightblue') + 
+  geom_line(aes(x = positions$Level, y = predict(simple.regressor, newdata = positions)), col = 'darkblue') + 
+  ggtitle('Simple') + 
+  xlab('Level') + 
+  ylab('Salary')
+
+# Visualizing the Polynomial Linear Regression
+poly.plot <- ggplot() + 
+  geom_point(data = positions, aes(x = Level, y = Salary), col = 'lightblue') + 
+  geom_line(aes(x = positions$Level, y = predict(polynomial.regressor, newdata = positions)), col = 'darkblue') + 
+  ggtitle('Polynomial') + 
+  xlab('Level') + 
+  ylab('Salary')
+
+
+grid.arrange(simple.plot, poly.plot, ncol = 2)
+```
+
+It is important to note that all of the light blue points are the actual data points while the dark blue line is our prediction. We can see that the polynomial regression does a much better job of predicting these points for this dataset. 
+
+## Is is likely the new hire is telling the truth about his past salary?
+The new hire stated he was earning a salary of $160,000 as a level 6.5.
+```{r}
+poly.y.pred <- predict(polynomial.regressor, data.frame(Level = 6.5, 
+                                                        Level2 = 6.5^2,
+                                                        Level3 = 6.5^3,
+                                                        Level4 = 6.5^4))
+
+
+poly.y.pred
+```
+
+# Conclusion
+Our polynomial regressor predicted at a 6.5 level the salary would be $158,000. Therefore, it is likely the new hire was telling the truth about his salary since that number is very close to \$160,000.
 
