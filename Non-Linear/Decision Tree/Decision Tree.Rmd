@@ -1,20 +1,8 @@
 ---
-title: "Support Vector Regression"
-author: "Author : Rose Ellison"
-output:
-  html_document:
-    highlight: tango
-    number_sections: no
-    number_subsections: no
-    smooth_scroll: yes
-    theme: paper
-  word_document: default
-  pdf_document:
-    highlight: tango
-    number_sections: no
-    number_subsections: no
-    smooth_scroll: yes
-    theme: paper
+title: "Decision Tree"
+author: "Rose Ellison"
+date: "1/31/2021"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
