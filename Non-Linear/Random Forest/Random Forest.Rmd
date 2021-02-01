@@ -1,5 +1,5 @@
 ---
-title: "Support Vector Regression"
+title: "Random Forest Regression"
 author: "Author : Rose Ellison"
 output:
   html_document:
@@ -8,7 +8,6 @@ output:
     number_subsections: no
     smooth_scroll: yes
     theme: paper
-  word_document: default
   pdf_document:
     highlight: tango
     number_sections: no
@@ -22,40 +21,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library(caTools)
 library(ggplot2)
 library(gridExtra)
-library(e1071)
+library(rpart)
 ```
 
-\subsection{$\epsilon$-Support Vector Regression
-($\epsilon$-SVR)}
-Given a set of data points,
-$\{(x_1, z_1), \ldots, 
-(x_l, z_l)\}$, such that
-$x_i \in R^n$ is
-an input and $z_i \in R^1$
-is a target output, 
-the standard form of support vector 
-regression 
-\shortcite{VV98a}
-is:
-\begin{eqnarray*}
- \min_{w,b,\xi,\xi^*} &&\frac{1}{2} 
-w^Tw 
-+ C \sum_{i=1}^l
-\xi_i
-+ C \sum_{i=1}^l
-\xi_i^* 
- \\
-&& z_i - w^T \phi(x_i) - b \leq 
-\epsilon + \xi_i ,  \\
-&& w^T \phi(x_i) + b -z_i\leq 
-\epsilon + \xi_i^* ,  \\
-&& \xi_i, \xi_i^* \geq 0, 
-i = 1, \ldots, l. 
-\end{eqnarray*}
 
-
-
-I will be building support vector regression(SVR) model based off the 'Position_Salaries' data to determine 1.) determine if the model fits the data and 2.) to determine if a particuilar new hire's past salary was possibly $160,000 as a region manager.
+I will be building a random forest regression model based off the 'Position_Salaries' data to determine 1.) determine if the model fits the data and 2.) to determine if a particuilar new hire's past salary was possibly $160,000 as a region manager.
 In this dataset there are three columns $Position$, $Level$, and $Salary$. Salary is our dependent variable while the other two are our independent variables. 
 
 # Preparing the Data
@@ -78,11 +48,13 @@ From the table we can see there is some redundancy between the $Position$ and $L
 positions <- positions[, 2:3]
 ```
 
-## SVR Regressor
+
+
+## Decision Tree Regressor
 ```{r}
-regressor <- svm(formula = Salary ~ Level, 
-                 data = positions,
-                 type = 'eps-regression')
+regressor <- rpart(formula = Salary ~ Level, 
+                   data = positions,
+                   control = rpart.control(minsplit = 1))
 ```
 
 
@@ -90,23 +62,26 @@ regressor <- svm(formula = Salary ~ Level,
 Is it likely that the new hire's past salary was actually $160,000 as a level 6.5?
 ```{r}
 y.pred <- predict(regressor, data.frame(Level = 6.5))
+y.pred
 ```
 
 
 
-## Visualizing the SVR
-Visualizing the data will allow us to see if the SVR is a good model for the data.
+## Visualizing the Decision Tree Model
+Visualizing the data will allow us to see if the decision tree regression is a good model for the data. It is important to note this is a non-continuos model.
 ```{r}
+# Increase the resolution
+x_grid = seq(min(positions$Level), max(positions$Level), 0.01)
 
-# Visualizing the Support Vector Regression
+# Visualizing the Decision Tree Regression
 ggplot() + 
   geom_point(data = positions, aes(x = Level, y = Salary), col = 'lightblue') + 
-  geom_line(aes(x = positions$Level, y = predict(regressor, newdata = positions)), col = 'darkblue') + 
-  ggtitle('SVR Model') + 
+  geom_line(aes(x = x_grid, y = predict(regressor, newdata = data.frame(Level = x_grid))), col = 'darkblue') + 
+  ggtitle('Decision Tree Model') + 
   xlab('Level') + 
   ylab('Salary')
 
 ```
 
 ## Conclusion
-This model fits well with all of the data EXCEPT the CEO level. The CEO can also be categorized as an outlier. It is clear that the SVR model is not calculating any outliers in it's model.
+The decision tree regression model is considering the average in each of the split intervals.
