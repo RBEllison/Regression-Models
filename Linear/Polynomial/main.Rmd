@@ -2,13 +2,13 @@
 title: "Polynomial Regression"
 author: "Author : Rose Ellison"
 output:
+  word_document: default
   html_document:
     highlight: tango
     number_sections: no
     number_subsections: no
     smooth_scroll: yes
     theme: paper
-  word_document: default
   pdf_document:
     highlight: tango
     number_sections: no

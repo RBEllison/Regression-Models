@@ -1,19 +1,20 @@
 ---
 title: "Simple Linear Regression"
-author: "Author : Rose Ellison"
+author: 'Author : Rose Ellison'
 output:
-  html_document:
-    highlight: tango
-    number_sections: no
-    number_subsections: no
-    theme: paper
-    smooth_scroll: true
+  word_document: default
   pdf_document:
     highlight: tango
     number_sections: no
     number_subsections: no
+    smooth_scroll: yes
     theme: paper
-    smooth_scroll: true
+  html_document:
+    highlight: tango
+    number_sections: no
+    number_subsections: no
+    smooth_scroll: yes
+    theme: paper
 ---
 
 ```{r setup, include=FALSE}

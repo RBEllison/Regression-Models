@@ -1,14 +1,15 @@
 ---
 title: "Random Forest Regression"
-author: "Author : Rose Ellison"
+author: 'Author : Rose Ellison'
 output:
-  html_document:
+  word_document: default
+  pdf_document:
     highlight: tango
     number_sections: no
     number_subsections: no
     smooth_scroll: yes
     theme: paper
-  pdf_document:
+  html_document:
     highlight: tango
     number_sections: no
     number_subsections: no
